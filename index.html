@@ -21,13 +21,29 @@
                 <div style="margin-bottom: 12px;font-weight: bold;">
                     Giờ vào
                 </div>
-                <input id="gioVao" type="datetime-local">
+                <input id="gioVao" type="date">
+                <div style="margin-top: 10px;">
+                    <input type="radio" id="giovao1" name="khunggiovao" value="1">
+                    <label for="giovao1">Từ 0h đến 6h</label><br>
+                    <input type="radio" id="giovao2" name="khunggiovao" value="2">
+                    <label for="giovao2">Từ 6h đến 22h</label><br>
+                    <input type="radio" id="giovao3" name="khunggiovao" value="3">
+                    <label for="giovao3">Từ 22h đến 0h</label><br>
+                </div>
             </div>
             <div class="hour">
                 <div style="margin-bottom: 12px; font-weight: bold;">
                     Giờ ra
                 </div>
-                <input id="gioRa" type="datetime-local">
+                <input id="gioRa" type="date">
+                <div style="margin-top: 10px;">
+                    <input type="radio" id="giora1" name="khunggiora" value="1">
+                    <label for="giora1">Từ 0h đến 6h</label><br>
+                    <input type="radio" id="giora2" name="khunggiora" value="2">
+                    <label for="giora2">Từ 6h đến 22h</label><br>
+                    <input type="radio" id="giora3" name="khunggiora" value="3">
+                    <label for="giora3">Từ 22h đến 0h</label><br>
+                </div>
             </div>
         </div>
         <div class="type">
@@ -107,54 +123,45 @@
                     default:
                         break;
                 }
+                var khunggiovao = $('input[name="khunggiovao"]:checked').val();
+                var khunggiora = $('input[name="khunggiora"]:checked').val();
+                console.log(khunggiora + " " + khunggiovao);
                 let dateIn = new Date($("#gioVao").val()).toLocaleDateString("en-US");
                 let dateOut = new Date($("#gioRa").val()).toLocaleDateString("en-US");
                 let dayIn = new Date($("#gioVao").val()).getTime();
                 let dayOut = new Date($("#gioRa").val()).getTime();
                 let diff = (dayOut - dayIn)/(1000 * 3600 * 24);
-                let gioVao = new Date($("#gioVao").val()).getHours();
-                let gioRa = new Date($("#gioRa").val()).getHours();
                 if (dateIn == dateOut) {
-                    if(gioVao > 5 && gioVao < 22){
-                       if(gioRa > gioVao){
-                           if(gioRa < 22){
+                    if(khunggiovao == 2){
+                           if(khunggiora == 2){
                                ketqua = ketqua + giasang;
                            } else ketqua = ketqua + giasang + giachieu;
-                       }
-                    } else if(gioVao <6 ) {
-                        if(gioRa > gioVao){
-                            if(gioRa < 6){
+                    } else if(khunggiovao == 1 ) {
+                            if(khunggiora == 1){
                                 ketqua = ketqua + giachieu;
-                            } else if(gioRa >5 && gioRa <22){
+                            } else if(khunggiora == 2){
                                 ketqua = ketqua + giachieu + giasang;
-                            } else if(gioRa >21) {
+                            } else if(khunggiora == 3) {
                                 ketqua = ketqua + giasang + giachieu + giasang;
                             }
-                        }
-                    } else if(gioVao > 21){
-                        if(gioRa > gioVao){
+                    } else if(khunggiovao == 3){
                             ketqua = ketqua + giachieu;
-                        }
                     }
-                   
                 } else{
                     if(diff.toFixed(0)==0){
                         ketqua = ketqua + (giasang+giachieu)*(parseInt(diff.toFixed(0)));
                     } else ketqua = ketqua + (giasang+giachieu)*(parseInt(Math.trunc(diff))-1);
-                    if(gioVao < 6){
+                    if(khunggiovao == 1){
                         ketqua = ketqua + giachieu + giasang;
-                    } else if( gioVao >5 && gioVao < 22) {
+                    } else if( khunggiovao == 2) {
                         ketqua = ketqua + giasang;
-                    } else if(gioVao > 21){
-                        console.log(ketqua);
+                    } else if(khunggiovao == 3){
                     }
-                    if(gioRa < 6){
+                    if(khunggiora == 1){
                         ketqua = ketqua + giachieu;
-                    } else if(gioRa >5 && gioRa < 22){
+                    } else if(khunggiora == 2){
                         ketqua = ketqua + giachieu + giasang;
-                    } else if(gioRa > 21){
-                        console.log(ketqua);
-                        console.log(Math.trunc(diff));
+                    } else if(khunggiora == 3){
                         ketqua = ketqua + giachieu + giasang + giachieu;
                     }
                 }
